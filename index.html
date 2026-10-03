@@ -7,111 +7,718 @@
 <title>Queue Lab — Synthetic Queue Test Site</title>
 <style>
 :root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hiragino Sans",sans-serif;color:#fff;background:#0b0b0d}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#30303a,#0b0b0d 55%);min-height:100vh}.wrap{max-width:520px;margin:auto;padding:22px 16px 50px}.card{background:#18181b;border:1px solid #303037;border-radius:24px;padding:20px;box-shadow:0 16px 50px #0008;margin:14px 0}.brand{font-size:28px;font-weight:800}.muted{color:#a8a8b0}.pill{display:inline-block;padding:7px 11px;border-radius:999px;background:#242428;font-size:13px}.green{background:#123d28;color:#79f2a7}.btn{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:17px;font-weight:800;background:#fff;color:#111;margin-top:10px}.btn.secondary{background:#29292d;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#222226;border-radius:16px;padding:14px}.stat b{font-size:22px;display:block;margin-top:4px}.bar{height:14px;background:#303037;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:#62e6a4;transition:width .5s}.token{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;background:#0d0d0f;border-radius:12px;padding:12px;color:#d7d7dc}.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #29292e}.row:last-child{border-bottom:0}.tag{font-size:11px;border-radius:7px;padding:4px 7px;background:#2b2b30}.warn{color:#ffd36b}.ok{color:#72f0a3}.footer{text-align:center;color:#777;font-size:12px;margin-top:24px}.hidden{display:none}.log{max-height:220px;overflow:auto;font:12px ui-monospace,monospace;white-space:pre-wrap;background:#0c0c0e;border-radius:14px;padding:12px}.small{font-size:13px}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 50% -10%,#30303a,#0b0b0d 55%);min-height:100vh}
+.wrap{max-width:520px;margin:auto;padding:22px 16px 50px}
+.card{background:#18181b;border:1px solid #303037;border-radius:24px;padding:20px;box-shadow:0 16px 50px #0008;margin:14px 0}
+.brand{font-size:28px;font-weight:800}
+.muted{color:#a8a8b0}
+.pill{display:inline-block;padding:7px 11px;border-radius:999px;background:#242428;font-size:13px}
+.green{background:#123d28;color:#79f2a7}
+.btn{width:100%;border:0;border-radius:16px;padding:15px 18px;font-size:17px;font-weight:800;background:#fff;color:#111;margin-top:10px}
+.btn.secondary{background:#29292d;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#222226;border-radius:16px;padding:14px}
+.stat b{font-size:22px;display:block;margin-top:4px}
+.bar{height:14px;background:#303037;border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;background:#62e6a4;transition:width .5s}
+.token{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;background:#0d0d0f;border-radius:12px;padding:12px;color:#d7d7dc}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #29292e}
+.row:last-child{border-bottom:0}
+.tag{font-size:11px;border-radius:7px;padding:4px 7px;background:#2b2b30}
+.warn{color:#ffd36b}
+.ok{color:#72f0a3}
+.footer{text-align:center;color:#777;font-size:12px;margin-top:24px}
+.hidden{display:none}
+.log{max-height:220px;overflow:auto;font:12px ui-monospace,monospace;white-space:pre-wrap;background:#0c0c0e;border-radius:14px;padding:12px}
+.small{font-size:13px}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
   <div class="card" id="startView">
     <div class="pill green">● SYNTHETIC TEST ENVIRONMENT</div>
-    <div class="brand" style="margin-top:12px">Queue Lab</div>
-    <p class="muted">iPhone AI Assistant PRO 用の待合室・Token・Network解析テストサイトです。</p>
-    <div class="grid">
-      <div class="stat"><span class="muted small">Event</span><b id="eventName">Test Drop</b></div>
-      <div class="stat"><span class="muted small">Queue</span><b>ON</b></div>
+
+    <div class="brand" style="margin-top:12px">
+      Queue Lab
     </div>
-    <button class="btn" id="joinBtn">待合室に入る</button>
-    <button class="btn secondary" id="directBtn">QueueなしでTargetへ</button>
+
+    <p class="muted">
+      iPhone AI Assistant PRO 用の待合室・Token・Network解析テストサイトです。
+    </p>
+
+    <div class="grid">
+      <div class="stat">
+        <span class="muted small">Event</span>
+        <b id="eventName">Test Drop</b>
+      </div>
+
+      <div class="stat">
+        <span class="muted small">Queue</span>
+        <b>ON</b>
+      </div>
+    </div>
+
+    <button class="btn" id="joinBtn">
+      待合室に入る
+    </button>
+
+    <button class="btn secondary" id="directBtn">
+      QueueなしでTargetへ
+    </button>
   </div>
+
 
   <div class="card hidden" id="queueView">
-    <div class="pill warn">● WAITING ROOM</div>
-    <h1 style="margin-bottom:4px">順番待ち</h1>
-    <p class="muted">これはテスト用の仮想待合室です。数秒後に自動でTargetへ遷移します。</p>
-    <div class="grid">
-      <div class="stat"><span class="muted small">あなたの位置</span><b id="position">—</b></div>
-      <div class="stat"><span class="muted small">待機人数</span><b id="people">—</b></div>
-      <div class="stat"><span class="muted small">推定時間</span><b id="eta">—</b></div>
-      <div class="stat"><span class="muted small">状態</span><b id="status">WAITING</b></div>
+
+    <div class="pill warn">
+      ● WAITING ROOM
     </div>
-    <div style="margin:18px 0 7px;display:flex;justify-content:space-between"><span class="muted">進行状況</span><span id="pct">0%</span></div>
-    <div class="bar"><div class="fill" id="fill"></div></div>
-    <p class="small muted" id="queueMessage">Queue APIをポーリング中…</p>
+
+    <h1 style="margin-bottom:4px">
+      順番待ち
+    </h1>
+
+    <p class="muted">
+      これはテスト用の仮想待合室です。
+      数秒後に自動でTargetへ遷移します。
+    </p>
+
+    <div class="grid">
+
+      <div class="stat">
+        <span class="muted small">あなたの位置</span>
+        <b id="position">—</b>
+      </div>
+
+      <div class="stat">
+        <span class="muted small">待機人数</span>
+        <b id="people">—</b>
+      </div>
+
+      <div class="stat">
+        <span class="muted small">推定時間</span>
+        <b id="eta">—</b>
+      </div>
+
+      <div class="stat">
+        <span class="muted small">状態</span>
+        <b id="status">WAITING</b>
+      </div>
+
+    </div>
+
+    <div style="margin:18px 0 7px;display:flex;justify-content:space-between">
+      <span class="muted">進行状況</span>
+      <span id="pct">0%</span>
+    </div>
+
+    <div class="bar">
+      <div class="fill" id="fill"></div>
+    </div>
+
+    <p class="small muted" id="queueMessage">
+      Queue APIをポーリング中…
+    </p>
+
     <div class="log" id="queueLog"></div>
+
   </div>
 
+
   <div class="card hidden" id="targetView">
-    <div class="pill green">● ACCESS GRANTED — TEST</div>
-    <h1>Target Page</h1>
-    <p class="muted">待合室通過後のテストページです。下の操作でNetwork / DOM変化の記録も確認できます。</p>
-    <div class="stat"><span class="muted small">商品</span><b>Test Product 473ml</b><div class="muted">¥5,900</div></div>
-    <button class="btn" id="apiBtn">在庫APIを取得</button>
-    <button class="btn secondary" id="cartBtn">カートに入れる</button>
-    <div id="result" class="card" style="padding:14px;margin-top:12px"><span class="muted">API結果</span><div id="apiResult" style="margin-top:8px">まだ実行していません</div></div>
-    <div class="card" style="padding:14px"><div class="muted small">現在のURL</div><div class="token" id="currentUrl"></div></div>
-    <div class="card" style="padding:14px"><div class="muted small">Synthetic Network Log</div><div class="log" id="targetLog"></div></div>
+
+    <div class="pill green">
+      ● ACCESS GRANTED — TEST
+    </div>
+
+    <h1>
+      Target Page
+    </h1>
+
+    <p class="muted">
+      待合室通過後のテストページです。
+      下の操作でNetwork / DOM変化の記録も確認できます。
+    </p>
+
+
+    <div class="stat">
+
+      <span class="muted small">
+        商品
+      </span>
+
+      <b>
+        Test Product 473ml
+      </b>
+
+      <div class="muted">
+        ¥5,900
+      </div>
+
+    </div>
+
+
+    <div
+      class="card"
+      style="padding:14px;margin-top:12px;border-color:#2e6b4a;background:#10231a"
+    >
+
+      <div
+        style="display:flex;justify-content:space-between;align-items:center;gap:10px"
+      >
+
+        <div>
+
+          <div class="muted small">
+            Queue Token 接続状態
+          </div>
+
+          <div
+            id="tokenStatus"
+            style="font-size:18px;font-weight:800;margin-top:4px"
+          >
+            未接続
+          </div>
+
+        </div>
+
+        <div id="tokenBadge" class="pill">
+          NO TOKEN
+        </div>
+
+      </div>
+
+
+      <div
+        id="tokenSummary"
+        class="small muted"
+        style="margin-top:10px"
+      >
+        Target URL に queueittoken は付いていません。
+      </div>
+
+
+      <div
+        id="tokenUrl"
+        class="token hidden"
+        style="margin-top:10px"
+      ></div>
+
+
+      <div
+        id="tokenFields"
+        class="small"
+        style="margin-top:10px"
+      ></div>
+
+    </div>
+
+
+    <button class="btn" id="apiBtn">
+      在庫APIを取得
+    </button>
+
+    <button class="btn secondary" id="cartBtn">
+      カートに入れる
+    </button>
+
+
+    <div
+      id="result"
+      class="card"
+      style="padding:14px;margin-top:12px"
+    >
+
+      <span class="muted">
+        API結果
+      </span>
+
+      <div
+        id="apiResult"
+        style="margin-top:8px"
+      >
+        まだ実行していません
+      </div>
+
+    </div>
+
+
+    <div class="card" style="padding:14px">
+
+      <div class="muted small">
+        現在のURL
+      </div>
+
+      <div
+        class="token"
+        id="currentUrl"
+      ></div>
+
+    </div>
+
+
+    <div class="card" style="padding:14px">
+
+      <div class="muted small">
+        Synthetic Network Log
+      </div>
+
+      <div
+        class="log"
+        id="targetLog"
+      ></div>
+
+    </div>
+
   </div>
-  <div class="footer">Queue Lab is a self-contained synthetic test site. It does not connect to Queue-it or reproduce production verification.</div>
+
+
+  <div class="footer">
+    Queue Lab is a self-contained synthetic test site.
+    It does not connect to Queue-it or reproduce production verification.
+  </div>
+
 </div>
+
+
 <script>
+
 (() => {
+
   const qs = new URLSearchParams(location.search);
-  const state = {event:'test-drop', queueSeconds:8, started:Date.now(), position:47, people:128, logs:[]};
-  const $=id=>document.getElementById(id);
-  const log=(el,msg)=>{state.logs.push(msg); if(state.logs.length>40)state.logs.shift(); $(el).textContent=state.logs.join('\n');};
-  const token = () => {
-    const q='test-'+crypto.randomUUID();
-    const ts=Math.floor(Date.now()/1000);
-    // Deliberately synthetic; h is not a production signature.
-    return `e_${state.event}~ts_${ts}~ce_true~q_${q}~rt_queue~h_TEST_ONLY_${Math.random().toString(36).slice(2,14)}`;
+
+  const state = {
+    event:'test-drop',
+    queueSeconds:8,
+    started:Date.now(),
+    position:47,
+    people:128,
+    logs:[]
   };
-  function setView(name){['startView','queueView','targetView'].forEach(x=>$(x).classList.toggle('hidden',x!==name));}
-  async function fakeQueueApi(){
-    const body={event:state.event,position:state.position,people:state.people,waitSeconds:Math.max(0,state.queueSeconds),status:'waiting'};
-    log('queueLog',`FETCH /api/queue/status?event=${state.event}\n200 application/json\n${JSON.stringify(body)}`);
-    return body;
-  }
-  async function join(){
-    setView('queueView'); state.started=Date.now();
-    const total=state.queueSeconds;
-    for(let s=0;s<=total;s++){
-      const left=total-s, pct=Math.round(s/total*100);
-      $('position').textContent=Math.max(1,state.position-Math.floor(s*state.position/total));
-      $('people').textContent=Math.max(0,state.people-s*5);
-      $('eta').textContent=left+'秒'; $('pct').textContent=pct+'%'; $('fill').style.width=pct+'%';
-      await fakeQueueApi();
-      if(s<total) await new Promise(r=>setTimeout(r,1000));
+
+  const $ = id => document.getElementById(id);
+
+  const log = (el,msg) => {
+
+    state.logs.push(msg);
+
+    if(state.logs.length > 40){
+      state.logs.shift();
     }
-    $('status').textContent='GRANTED'; $('status').className='ok'; $('queueMessage').textContent='順番が来ました。Targetへ移動します…';
-    const t=token();
-    log('queueLog',`REDIRECT /target.html?queueittoken=${t}`);
-    location.href = location.pathname + '?page=target&queueittoken=' + encodeURIComponent(t);
+
+    $(el).textContent = state.logs.join('\n');
+
+  };
+
+
+  const token = () => {
+
+    const q =
+      'test-' +
+      crypto.randomUUID();
+
+    const ts =
+      Math.floor(Date.now()/1000);
+
+    /*
+      Deliberately synthetic.
+      h is not a production signature.
+    */
+
+    return `e_${state.event}~ts_${ts}~ce_true~q_${q}~rt_queue~h_TEST_ONLY_${Math.random().toString(36).slice(2,14)}`;
+
+  };
+
+
+  function setView(name){
+
+    [
+      'startView',
+      'queueView',
+      'targetView'
+    ].forEach(
+      x =>
+        $(x).classList.toggle(
+          'hidden',
+          x !== name
+        )
+    );
+
   }
+
+
+  async function fakeQueueApi(){
+
+    const body = {
+
+      event:state.event,
+
+      position:state.position,
+
+      people:state.people,
+
+      waitSeconds:
+        Math.max(
+          0,
+          state.queueSeconds
+        ),
+
+      status:'waiting'
+
+    };
+
+
+    log(
+      'queueLog',
+      `FETCH /api/queue/status?event=${state.event}
+200 application/json
+${JSON.stringify(body)}`
+    );
+
+
+    return body;
+
+  }
+
+
+  async function join(){
+
+    setView('queueView');
+
+    state.started = Date.now();
+
+    const total =
+      state.queueSeconds;
+
+
+    for(
+      let s=0;
+      s<=total;
+      s++
+    ){
+
+      const left =
+        total-s;
+
+      const pct =
+        Math.round(
+          s/total*100
+        );
+
+
+      $('position').textContent =
+        Math.max(
+          1,
+          state.position -
+          Math.floor(
+            s*state.position/total
+          )
+        );
+
+
+      $('people').textContent =
+        Math.max(
+          0,
+          state.people -
+          s*5
+        );
+
+
+      $('eta').textContent =
+        left+'秒';
+
+
+      $('pct').textContent =
+        pct+'%';
+
+
+      $('fill').style.width =
+        pct+'%';
+
+
+      await fakeQueueApi();
+
+
+      if(s<total){
+
+        await new Promise(
+          r => setTimeout(
+            r,
+            1000
+          )
+        );
+
+      }
+
+    }
+
+
+    $('status').textContent =
+      'GRANTED';
+
+    $('status').className =
+      'ok';
+
+
+    $('queueMessage').textContent =
+      '順番が来ました。Targetへ移動します…';
+
+
+    const t = token();
+
+
+    log(
+      'queueLog',
+      `REDIRECT /target.html?queueittoken=${t}`
+    );
+
+
+    /*
+      QトークンをTarget URLへ接続して遷移
+    */
+
+    location.href =
+      location.pathname +
+      '?page=target&queueittoken=' +
+      encodeURIComponent(t);
+
+  }
+
+
   async function direct(){
-    location.href = location.pathname + '?page=target&direct=1';
+
+    location.href =
+      location.pathname +
+      '?page=target&direct=1';
+
   }
+
+
   async function target(){
+
     setView('targetView');
-    $('currentUrl').textContent=location.href;
-    log('targetLog',`PAGE LOAD ${location.pathname}${location.search}`);
-    const tok=qs.get('queueittoken');
+
+
+    $('currentUrl').textContent =
+      location.href;
+
+
+    log(
+      'targetLog',
+      `PAGE LOAD ${location.pathname}${location.search}`
+    );
+
+
+    const tok =
+      qs.get('queueittoken');
+
+
     if(tok){
-      log('targetLog',`OBSERVED query parameter: queueittoken\nlength=${tok.length}\nfields=${tok.split('~').length}\n[synthetic token; do not use for real Queue-it access]`);
-    } else log('targetLog','No queueittoken present. Direct test mode.');
+
+      const fields = {};
+
+
+      tok.split('~').forEach(
+        part => {
+
+          const i =
+            part.indexOf('_');
+
+          if(i>0){
+
+            fields[
+              part.slice(0,i)
+            ] =
+              part.slice(i+1);
+
+          }
+
+        }
+      );
+
+
+      /*
+        Qトークン接続済み
+      */
+
+      $('tokenStatus').textContent =
+        '✓ Qトークン接続済み';
+
+      $('tokenStatus').className =
+        'ok';
+
+
+      $('tokenBadge').textContent =
+        'TOKEN CONNECTED';
+
+      $('tokenBadge').className =
+        'pill green';
+
+
+      $('tokenSummary').textContent =
+        'このTargetページは queueittoken 付きURLで開かれました。';
+
+
+      $('tokenUrl').classList.remove(
+        'hidden'
+      );
+
+
+      $('tokenUrl').textContent =
+        '接続URL: ' +
+        location.href;
+
+
+      $('tokenFields').innerHTML =
+        Object.entries(fields)
+        .map(
+          ([k,v]) =>
+            `<div class="row">
+              <span>${k}</span>
+              <span class="tag">
+                ${k==='h'
+                  ? '[TEST SIGNATURE]'
+                  : v}
+              </span>
+            </div>`
+        )
+        .join('');
+
+
+      log(
+        'targetLog',
+        `OBSERVED query parameter: queueittoken
+CONNECTED=YES
+length=${tok.length}
+fields=${tok.split('~').length}
+e=${fields.e||'—'}
+ts=${fields.ts||'—'}
+q=${fields.q||'—'}
+rt=${fields.rt||'—'}
+ec=${fields.ce||'—'}
+h=[TEST SIGNATURE]
+[synthetic token; do not use for real Queue-it access]`
+      );
+
+
+    } else {
+
+      $('tokenStatus').textContent =
+        '未接続';
+
+
+      $('tokenBadge').textContent =
+        'NO TOKEN';
+
+
+      $('tokenSummary').textContent =
+        'Target URL に queueittoken は付いていません。';
+
+
+      log(
+        'targetLog',
+        'No queueittoken present. Direct test mode.'
+      );
+
+    }
+
   }
-  $('joinBtn').onclick=join; $('directBtn').onclick=direct;
-  $('apiBtn').onclick=async()=>{
-    const data={productId:'TEST-473',sku:'SKU-473',availability:true,stock:7,price:5900,timestamp:new Date().toISOString()};
-    log('targetLog',`FETCH /api/products/TEST-473/availability\nGET\n200 application/json\n${JSON.stringify(data)}`);
-    $('apiResult').innerHTML='<span class="ok">● IN STOCK</span>　残数 '+data.stock+'　¥'+data.price.toLocaleString();
-  };
-  $('cartBtn').onclick=()=>{
-    const data={action:'add_to_cart',productId:'TEST-473',quantity:1};
-    log('targetLog',`POST /api/cart\n${JSON.stringify(data)}\n200 {"ok":true}`);
-    $('apiResult').innerHTML='<span class="ok">● CART UPDATED</span>　Test Product 473ml';
-  };
-  if(qs.get('page')==='target') target(); else setView('startView');
+
+
+  $('joinBtn').onclick =
+    join;
+
+
+  $('directBtn').onclick =
+    direct;
+
+
+  $('apiBtn').onclick =
+    async() => {
+
+      const data = {
+
+        productId:'TEST-473',
+
+        sku:'SKU-473',
+
+        availability:true,
+
+        stock:7,
+
+        price:5900,
+
+        timestamp:
+          new Date().toISOString()
+
+      };
+
+
+      log(
+        'targetLog',
+        `FETCH /api/products/TEST-473/availability
+GET
+200 application/json
+${JSON.stringify(data)}`
+      );
+
+
+      $('apiResult').innerHTML =
+        '<span class="ok">● IN STOCK</span>　残数 ' +
+        data.stock +
+        '　¥' +
+        data.price.toLocaleString();
+
+    };
+
+
+  $('cartBtn').onclick =
+    () => {
+
+      const data = {
+
+        action:'add_to_cart',
+
+        productId:'TEST-473',
+
+        quantity:1
+
+      };
+
+
+      log(
+        'targetLog',
+        `POST /api/cart
+${JSON.stringify(data)}
+200 {"ok":true}`
+      );
+
+
+      $('apiResult').innerHTML =
+        '<span class="ok">● CART UPDATED</span>　Test Product 473ml';
+
+    };
+
+
+  if(
+    qs.get('page') === 'target'
+  ){
+
+    target();
+
+  } else {
+
+    setView('startView');
+
+  }
+
 })();
+
 </script>
+
 </body>
 </html>
